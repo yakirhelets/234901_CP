@@ -41,6 +41,34 @@ ll findIndex(ll n) {
     return floorl(fibo) - 1;
 }
 
+int getNumOfDigits(int n) {
+    int i = 1;
+    int j = 1;
+    int temp;
+    int numOfDigits = 1;
+    while (n < j) {
+        temp = j;
+        j = j+i;
+        i = temp;
+        numOfDigits++;
+    }
+    return numOfDigits;
+}
+
+int getStartingIndex(int n) {
+    int i = 1;
+    int j = 1;
+    int temp;
+    int numOfDigits = 1;
+    while (n < j) {
+        temp = j;
+        j = j+i;
+        i = temp;
+        numOfDigits++;
+    }
+    return numOfDigits;
+}
+
 // // vector<ll>&& FibonacciNumbers(ll n)
 // // {
 // //     ll f1 = 0, f2 = 1, i;
