@@ -1,0 +1,11 @@
+e-mail: yakir.helets@gmail.com
+name: Yakir Helets
+description:
+1. Add tuples of the queries and interval time into a minimum heap (sorted by the interval,
+ and than by the query number itself)
+2. For K times:
+    a. print the top query and pop it. We know it's the earlier of all the queries.
+    b. insert a new tuple to the heap with the same query number and the new interval time.
+nontrivial data structures: -
+time complexity: O(n*logn)
+
