@@ -137,11 +137,11 @@ int main() {
     while (t--) {
         ull n, m;
         cin >> n >> m;
-        vvi g(n);
+        vvi g = vvi(n);
         while (m--) {
             ull n1, n2;
             cin >> n1 >> n2;
-            g[n1].push_back(n2);
+            g[n1-1].push_back(n2-1);
         }
         if (m == 0) {
             cout << n << endl;
@@ -149,6 +149,27 @@ int main() {
         }
         vsi sccg;
         findSCCgraph(g, sccg);
-
+        if (sccg.size()==1) {
+            cout << 0 << endl;
+            continue;
+        }
+        vi entry = vi(sccg.size(), 0);
+        int exit = 0;
+        for (int i=0 ; i < sccg.size() ; i++) {
+            if (sccg[i].empty()) {
+                exit++;
+            } else {
+                for (int v : sccg[i]) {
+                    entry[v]++;
+                }
+            }
+        }
+        int entryCount = 0;
+        for (int v : entry) {
+            if (v==0) {
+                entryCount++;
+            }
+        }
+        cout << max(entryCount, exit) << endl;
     }
 }
