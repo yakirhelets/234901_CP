@@ -1,0 +1,10 @@
+e-mail: yakir.helets@gmail.com
+name: Yakir Helets
+description:
+1. Build a reversed graph to represent the problem
+2. Run dijkstra's algorithm on the reversed graph with e as the source. The output
+    is the shortest distance from each v to e
+3. Sum the distances which are lower than T
+nontrivial data structures: -
+time complexity: O(V+E*logV)
+
