@@ -1,0 +1,8 @@
+e-mail: yakir.helets@gmail.com
+name: Yakir Helets
+description:
+1. Iterate over all the possible permutations of 1,2,...,8 w.r.t to the given queen position.
+    Each permutation represents the row of the i'th column queen.
+2. Since every queen has it's own unique column and row, we must check only the diagonals for a valid solution.
+nontrivial data structures: -
+time complexity: O(7!*(1+2+...+8))=O(1)
