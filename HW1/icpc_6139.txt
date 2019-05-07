@@ -1,0 +1,7 @@
+e-mail: yakir.helets@gmail.com
+name: Yakir Helets
+description:
+We're using segment tree in order to reduce runtime complexity. Firstly, we update the initial sequence values.
+Then, we're updating it ('C' command) and querying it ('P' command) when needed.
+nontrivial data structures: segment tree
+time complexity: O(klogn)
