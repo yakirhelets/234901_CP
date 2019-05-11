@@ -1,0 +1,12 @@
+e-mail: yakir.helets@gmail.com
+name: Yakir Helets
+description:
+1. Sort the payers by the amount they're willing to pay and by their index
+2. For each amount reduce by div=min(price/payers,minimal amount that can be payed)
+3. If there's any remainder left from the division (must be lower than the remaining number of payers),
+    spread the remainder by the remaining payer by the order above.
+4. Update the price to be the amount of money that is left to pay.
+5. Repeat the process until price = 0.
+nontrivial data structures: -
+time complexity: O(nlogn+n)
+
