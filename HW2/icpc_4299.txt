@@ -1,0 +1,18 @@
+avishay27@campus.technion.ac.il
+Avishay Cohen
+Desc: Since every ticket between two cities is chosen uniformly from [1, R]
+we'll take the shortest path between the two cities of a couple.
+The solution would be to, with a given path of length L, the probability of
+a sum of L uniform random variables to be less or equal than the couple's
+budget. Since its not possible to compute this number on a computer (order of R^100)
+we'll use dynamic programming.
+The definition: dp[n][m] - the probabiliy to afford a trip through n-long path with a budget m.
+The base: dp[0][0] = 1 - the probability to stay put with no budget is 100%.
+The recursion rule: for each 1 <= w <= R: dp[n][m] += dp[n-1][m - w] * (1/R)
+This dp is calculated per matrix of connections in each case.
+We find out d - the length of the shortest path between cities a and b,
+than we sum up all the probabilities to go through the path with every partial
+budget of m (sum of different cases).
+Time Complexity: N - number of cities:
+                FloydWarshall - O(N^3)
+                DP - O(N^2 * R^2)
