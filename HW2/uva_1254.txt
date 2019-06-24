@@ -1,0 +1,23 @@
+avishay27@campus.technion.ac.il, yakir.helets@gmail.com, idanw@campus.technion.ac.il
+Avishay Cohen, Yakir Helets, Idan Weizman
+
+1254 - Top 10
+
+Solution Description:
+Build a suffix array and rank array from a string of all the words concatenated together with each word ending with a different '$' sign.
+Moreover, build hash tables: from word index to its length, from word index to its start index in the joined string, from each index in the joined string to the word index.
+Then for each query, do a binary search twice to fine the group of words that contain the query string.
+After that, for each unique word from that group, find its: length, rank and index; using the hash tables.
+All that's left is to print the top 10 from them, can be done by using a head for example.
+Things to note:
+There are at most 20000 different words so ASCII won't do (as there are that much different '$' signs), so wstring is used.
+
+Time Complexity:
+Given N words of total number of characters L with Q queries to run:
+Building the suffix array, rank array and hash tables takes O(L*log(L)) over all.
+For each query:
+The search for the group that has it takes O(log(L)) time. suppose it's a group of M words.
+Then making the unique group of words with their properties takes O(M) amortized.
+Printing the top 10 from that list takes O(M) time to build the heap and O(log(M)) to print, so O(M) overall.
+Running all the queries takes O(Q*(log(L)+O(M))) amortized.
+Overall the time complexity is O(L*log(L) + Q*(log(L)+O(M))) amortized.

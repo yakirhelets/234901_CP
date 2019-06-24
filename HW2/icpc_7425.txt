@@ -1,14 +1,15 @@
-e-mail: yakir.helets@gmail.com
-name: Yakir Helets
-description:
-The problem resembles a two-coloring graph problem:
-every two pipes that intersect cannot contain robots (two colors).
-First, we find all the intersections between the pipes. That can be done
-by finding their orientation.
-Next, we build the graph: every vertex is a pipe, and we connect
-between the intersected pipes.
-Lastly, we solve the 2-coloring problem using DFS.
-nontrivial data structures: -
-time complexity: finding intersections: O(N*log(N)
-+ DFS, building the graph: O(V+E)
+avishay27@campus.technion.ac.il, yakir.helets@gmail.com, idanw@campus.technion.ac.il
+Avishay Cohen, Yakir Helets, Idan Weizman
 
+7425 - Cleaning Pipes
+
+Solution Description:
+The problem resembles a two-coloring graph problem:
+Every two pipes that intersect cannot contain robots (two colors).
+First, we find all the intersections between the pipes. That can be done by finding their orientation.
+Next, we build the graph: every vertex is a pipe, and we connect between the intersected pipes.
+Lastly, we solve the 2-coloring problem using DFS.
+
+Time Complexity:
+Finding intersections: O(N*log(N)
++ DFS, building the graph: O(V+E)

@@ -1,15 +1,16 @@
-avishay27@campus.technion.ac.il
-Avishay Cohen
-Desc: We'll use dynammic programming.
-The definition would be f(n, k) - the number of sets of k distinct prime numbers
-which sums up to n.
-The base would be f(0, 0) = 1 - only the the empty set sums up to 0 which
-satisfies our constraints.
-we'll build the table for each prime, since a prime unmber might occur only once 
-in a set.
+avishay27@campus.technion.ac.il, yakir.helets@gmail.com, idanw@campus.technion.ac.il
+Avishay Cohen, Yakir Helets, Idan Weizman
+
+3619 - Sum of Different Primes 
+
+Solution Description:
+We'll use dynamic programming.
+The definition would be f(n, k) - the number of sets of k distinct prime numbers which sums up to n.
+The base would be f(0, 0) = 1 - only the the empty set sums up to 0 which satisfies our constraints.
+we'll build the table for each prime, since a prime number might occur only once in a set.
 The recursion rule: for each prime p: f(n, k) += f (n - p, k - 1)
-Time Complexity: making the set of primes using the sieve of eratosthenes
-costs O(N*log(log(N))) where N = 1120.
-constructin the DP table will cost at the worst cast = P * N * K = (1120 * 1120 * 15).
-This is being done only once and each test case is checking the table's
-appropriate value.
+
+Time Complexity:
+Making the set of primes using the Sieve of Eratosthenes costs O(N*log(log(N))) where N = 1120.
+constructing the DP table will cost at the worst cast = P * N * K = (1120 * 1120 * 15).
+This is being done only once and each test case is checking the table's appropriate value.

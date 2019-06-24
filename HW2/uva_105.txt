@@ -1,0 +1,21 @@
+avishay27@campus.technion.ac.il, yakir.helets@gmail.com, idanw@campus.technion.ac.il
+Avishay Cohen, Yakir Helets, Idan Weizman
+
+105 - The Skyline Problem
+
+Solution Description:
+Go over all the buildings using the sweep line paradigm:
+Events: x-coordinate of both starting point and ending point of buildings.
+Order: From left to right.
+Status: heights of "active" buildings, ordered.
+Any time the status maximum heights changes, then at the current x-coordinate the skyline changes.
+Things to take note of:
+Do all the processing for events with the same x-coordinate before checking if the maximum height has changed.
+Print the starting 0 height at x=1 if all the buildings are starting only after it.
+
+Time Complexity:
+Given n buildings:
+Reading the input is O(n) and building the list of events O(n*log(n)) because of sorting.
+For each event we do at most 2 operations of the status structure, which is a BST, that will have at most n items. Therefore each event takes O(log(n)) time in the worse case.
+There are O(n) events so overall the whole sweep takes O(n*log(n)) time.
+Overall the time complexity is O(n*log(n)).

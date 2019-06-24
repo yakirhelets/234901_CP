@@ -1,11 +1,15 @@
-avishay27@campus.technion.ac.il
-Avishay Cohen
-Desc: We want to check that there is no phone number which is a substring of
-another number in the phone book.
+avishay27@campus.technion.ac.il, yakir.helets@gmail.com, idanw@campus.technion.ac.il
+Avishay Cohen, Yakir Helets, Idan Weizman
+
+11362 - Phone List
+
+Solution Description:
+We want to check that there is no phone number which is a substring of another number in the phone book.
 We'll use a trie.
-Whenever inserting a new string (phone number) to the trie, we'll check if
-it is traversing an already made path, which was created by a previoud phone
-number. Either it contains another number, or it is a part of another number.
-Time Complexity: Each phone number is of max length of 10. Inserting will take
-±10 operations, and we could get maximum 10k numbers, so it's a total of
-100k± operations per test case.
+Whenever inserting a new string (phone number) to the trie, we'll check if it is traversing an already made path, which was created by a previous phone number.
+Either it contains another number, or it is a part of another number.
+
+Time Complexity:
+Each phone number is of max length of 10.
+Inserting will take ±10 operations, and we could get maximum 10k numbers.
+So it's a total of ±100k operations per test case.

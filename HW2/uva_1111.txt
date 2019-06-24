@@ -1,0 +1,15 @@
+avishay27@campus.technion.ac.il, yakir.helets@gmail.com, idanw@campus.technion.ac.il
+Avishay Cohen, Yakir Helets, Idan Weizman
+
+1111 - Trash Removal
+
+Solution Description:
+Given a polygon, computing the smallest chute width that will allow it to pass through can be done simply by using rotating calipers.
+This is straightforward: read input, run convex hull, run rotating calipers, repeat.
+
+Time Complexity:
+For each test case (Given n points):
+Reading the input is O(n).
+Running convex hull is O(n*log(n)), resulting in h <= n points.
+Running rotating calipers takes O(h) time.
+Overall the time complexity is O(n*log(n)) per test case.

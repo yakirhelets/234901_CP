@@ -1,17 +1,15 @@
-avishay27@campus.technion.ac.il
-Avishay Cohen
-Desc: The machine's operation ressambles a binary search.
-We split an "array" (row of canvases of the same color) into two parts, each
-part is turned into its own array (recieves a single color) and then we repeat
-the same operation on the two sub arrays.
-The total amount of ink needed is the sum of all elements in each of the arrays
-(sizes of each piece in a row of canvases) in every step of merging
-N elemnts (N canvases of different color) into a row of N canvases of the same
-color, in the same fashing it was split by the machine.
+avishay27@campus.technion.ac.il, yakir.helets@gmail.com, idanw@campus.technion.ac.il
+Avishay Cohen, Yakir Helets, Idan Weizman
+
+7274 - Canvas Painting
+
+Solution Description:
+The machine's operation resembles a binary search.
+We split an "array" (row of canvases of the same color) into two parts, each part is turned into its own array (receives a single color) and then we repeat the same operation on the two sub arrays.
+The total amount of ink needed is the sum of all elements in each of the arrays (sizes of each piece in a row of canvases) in every step of merging N elements (N canvases of different color) into a row of N canvases of the same color, in the same fashion it was split by the machine.
 The best way to do a binary search is to split each array to half.
-The minimal cost would be a sum of elements of each array in every step of
-merge sorting an already sorted array.
+The minimal cost would be a sum of elements of each array in every step of merge sorting an already sorted array.
 We'll use a min heap to maintain the order.
-Time Complexity: O(N*log(N)), when N is the number of canvases.
 
-
+Time Complexity:
+O(N*log(N)), where N is the number of canvases.
