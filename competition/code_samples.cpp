@@ -10,6 +10,242 @@
  * ------ DATA STRUCTURES ------
    ----------------------------- */
 
+#include <array>
+
+using namespace std;
+
+using ll = long long;
+using ull = unsigned long long;
+
+
+/// zero-based Fenwick tree with N elements
+template <ull N>
+struct FenwickTree {
+    array<ll, N + 1> FT = {0};
+
+    void reset() { // reset tree
+        FT = {0};
+    }
+
+    void init(ull i, ll v) { // pre-build set value at position i
+        FT[i + 1] = v;
+    }
+
+    void build() { // build the tree in O(n)
+        for (ull i = 1; i <= N; ++i) {
+            ull j = i + (i & -i);
+            if (j <= N)
+                FT[j] += FT[i];
+        }
+    }
+
+    /// must have function. the rest are optional.
+    void update(ull i, ll d) { // post-build update value at position i
+        for (++i; i <= N; i += i & -i)
+            FT[i] += d;
+    }
+
+    /// must have function. the rest are optional.
+    ll query_0i(ull i) { // query the tree from 0 to i inclusive on both ends
+        ll sum = 0;
+        for (++i; i > 0; i -= i & -i)
+            sum += FT[i];
+        return sum;
+    }
+
+    ll query_r(ull l, ull r) { // query the tree from l to r inclusive on both ends
+        return query_0i(r) - query_0i(l - 1);
+    }
+
+    ll read(ull i) { // read value at position i
+        return query_r(i, i);
+    }
+
+    void set(ull i, ll v) { // post-build set value at position i
+        update(i, v - read(i));
+    }
+
+    void update_r(ull l, ull r, ll d) { // post-build update values from l to r inclusive on both ends
+        for (ull i = l; i <= r; ++i)
+            update(i, d);
+    }
+};
+
+/** Fenwick **/
+/// zero-based Fenwick tree with N elements, with range update. not good for big numbers.
+template <ull N>
+struct FenwickTree2 {
+    FenwickTree<N + 1> FT1;
+    FenwickTree<N + 1> FT2;
+
+    void reset() { // reset tree
+        FT1.reset();
+        FT2.reset();
+    }
+
+    void init(ull i, ll v) { // pre-build set value at position i
+        FT1.FT[i] = v;
+    }
+
+    void build() { // build the tree in O(n)
+        for (ull v = 0, i = N; i > 0; --i) {
+            v = FT1.FT[i];
+            FT1.FT[i + 1] -= v;
+            FT2.FT[i] += v * (i - 1);
+            FT2.FT[i + 1] -= v * i;
+        }
+        FT1.build();
+        FT2.build();
+    }
+
+    /// must have function. the rest are optional.
+    void update_r(ull l, ull r, ll d) { // post-build update values from l to r inclusive on both ends
+        FT1.update(l, d);
+        FT1.update(r + 1, -d);
+        FT2.update(l, d * (l - 1));
+        FT2.update(r + 1, -d * r);
+    }
+
+    /// must have function. the rest are optional.
+    ll query_0i(ull i) { // query the tree from 0 to i inclusive on both ends
+        return FT1.query_0i(i) * i - FT2.query_0i(i);
+    }
+
+    ll query_r(ull l, ull r) { // query the tree from l to r inclusive on both ends
+        return query_0i(r) - query_0i(l - 1);
+    }
+
+    ll read(ull i) { // read value at position i
+        return query_r(i, i);
+    }
+
+    void update(ull i, ll d) { // post-build update value at position i
+        update_r(i, i, d);
+    }
+
+    void set(ull i, ll v) { // post-build set value at position i
+        update_r(i, i, v - read(i));
+    }
+};
+
+
+/** Segment **/
+#include <array>
+
+
+using namespace std;
+
+using ll = long long;
+using ull = unsigned long long;
+
+
+/// zero-based segment tree with T_N elements
+using t_type = ll;
+constexpr t_type T_START_V = 0;
+constexpr t_type T_QUERY_V = 0;
+#define T_OP +
+
+template <ull N>
+struct SegmentTree {
+    array<t_type, 2 * N> ST = {T_START_V};
+
+    void reset() { // reset tree
+        ST = {T_START_V};
+    }
+
+    void init(ull i, t_type v) { // pre-build set value at position i
+        ST[i + N] = v;
+    }
+
+    void build() { // build the tree in O(n)
+        for (ull i = N - 1; i > 0; --i)
+            ST[i] = ST[i << 1] T_OP ST[i << 1 | 1];
+    }
+
+    /// must have function. the rest are optional.
+    void set(ull i, t_type v) { // post-build set value at position i
+        for (ST[i += N] = v; i > 1; i >>= 1)
+            ST[i >> 1] = ST[i] T_OP ST[i ^ 1];
+    }
+
+    /// must have function. the rest are optional.
+    t_type query_r(ull l, ull r) { // from l to r inclusive on both ends
+        t_type res = T_QUERY_V;
+        for (l += N, r += N + 1; l < r; l >>= 1, r >>= 1) {
+            if (l & 1)
+                res = res T_OP ST[l++];
+            if (r & 1)
+                res = res T_OP ST[--r];
+        }
+        return res;
+    }
+
+    ll read(ull i) { // read value at position i
+        return query_r(i, i);
+    }
+
+    void update(ull i, t_type d) { // post-build update value at position i
+        set(i, read(i) + d);
+    }
+
+    void update_r(ull l, ull r, ll d) { // post-build update values from l to r inclusive on both ends
+        for (ull i = l; i <= r; ++i)
+            update(i, d);
+    }
+};
+
+
+/** Union-Find **/
+#include <vector>
+
+using namespace std;
+
+using ull = unsigned long long;
+
+struct UnionFind {
+    vector<ull> rank;
+    vector<ull> parent;
+
+    explicit UnionFind(ull size) {
+        rank = vector<ull>(size, 0);
+        parent = vector<ull>(size);
+        for (ull i = 0; i < size; i++) {
+            parent[i] = i;
+        }
+    }
+
+    ull find(ull x) {
+        ull tmp = x; // variable only used in log* code
+        while (x != parent[x]) {
+            x = parent[x];
+        }
+        while (tmp != x) { // for log*, not needed most of the time
+            ull next = parent[tmp];
+            parent[tmp] = x;
+            tmp = next;
+        } // end of log* code
+        return x;
+    }
+
+    void unite(ull p, ull q) {
+        p = find(p);
+        q = find(q);
+        if (q == p) { // already in the same group
+            return;
+        }
+        if (rank[p] < rank[q]) { // add shorter to longer
+            parent[p] = q;
+        }
+        else {
+            parent[q] = p;
+        }
+        if (rank[p] == rank[q]) { // update rank if needed
+            rank[p]++;
+        }
+    }
+};
+
+
 
 /* -----------------------------
  * ------- NUMBER THEORY -------
