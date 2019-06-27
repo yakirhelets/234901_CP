@@ -63,14 +63,14 @@ struct pt {
 
     // *** start of code for near precision compares ***
     bool operator<(const pt& p) const { // lexicographical smaller than
-        if (fabs(x - p.x) > EPS)        // useful for sorting
+        if (abs(x - p.x) > EPS)         // useful for sorting
             return x < p.x;             // first criteria , by x-coordinate
         return y < p.y;                 // second criteria, by y-coordinate
     }
 
     // use EPS (1e-9) when testing equality of two floating points
     bool operator==(const pt& p) const {
-        return (fabs(x - p.x) < EPS) and (fabs(y - p.y) < EPS);
+        return (abs(x - p.x) < EPS) and (abs(y - p.y) < EPS);
     }
     // *** end of code for near precision compares *** */
 
@@ -114,8 +114,14 @@ pt scale(pt v, double s) {     // non-negative s = [<1  ..  1 .. >1]
     return {v.x * s, v.y * s}; //                   shorter same longer
 }
 
-double angle(pt a, pt o, pt b) { // returns angle aob in rad
-    return acos(o.dot(a, b) / sqrt((a - o).len_sqr() * (b - o).len_sqr()));
+double angle(pt a, pt o, pt c) {                   // returns angle aob in rad (0 <= x <= PI)
+    return abs(atan2(o.cross(a, c), o.dot(a, c))); // remove abs for (-PI <= x <= PI)
+}
+
+pt circumcircle(pt a, pt b, pt c) { // find the center of a circle with points (a, b, c)
+    pt BA = b - a, CA = c - a;
+    double BAS = BA.len_sqr(), CAS = CA.len_sqr(), D = 0.5 / BA.cross(CA);
+    return a + scale({CA.y * BAS - BA.y * CAS, BA.x * CAS - CA.x * BAS}, D);
 }
 
 // returns the distance from p to the line defined by
@@ -153,7 +159,7 @@ struct line {
 
 // the answer is stored in the third parameter (pass by reference)
 void pointsToLine(point p1, point p2, line& l) {
-    if (fabs(p1.x - p2.x) < EPS) { // vertical line is fine
+    if (abs(p1.x - p2.x) < EPS) { // vertical line is fine
         l.a = 1.0;
         l.b = 0.0;
         l.c = -p1.x; // default values
@@ -165,30 +171,12 @@ void pointsToLine(point p1, point p2, line& l) {
     }
 }
 
-// not needed since we will use the more robust form: ax + by + c = 0 (see above)
-struct line2 {
-    double m, c;
-}; // another way to represent a line
-
-int pointsToLine2(point p1, point p2, line2& l) {
-    if (abs(p1.x - p2.x) < EPS) { // special case: vertical line
-        l.m = INF;                // l contains m = INF and c = x_value
-        l.c = p1.x;               // to denote vertical line x = x_value
-        return 0;                 // we need this return variable to differentiate result
-    }
-    else {
-        l.m = (double)(p1.y - p2.y) / (p1.x - p2.x);
-        l.c = p1.y - l.m * p1.x;
-        return 1; // l contains m and c of the line equation y = mx + c
-    }
-}
-
 bool areParallel(line l1, line l2) { // check coefficients a & b
-    return (fabs(l1.a - l2.a) < EPS) && (fabs(l1.b - l2.b) < EPS);
+    return (abs(l1.a - l2.a) < EPS) && (abs(l1.b - l2.b) < EPS);
 }
 
 bool areSame(line l1, line l2) { // also check coefficient c
-    return areParallel(l1, l2) && (fabs(l1.c - l2.c) < EPS);
+    return areParallel(l1, l2) && (abs(l1.c - l2.c) < EPS);
 }
 
 // returns true (+ intersection point) if two lines are intersect
@@ -198,7 +186,7 @@ bool areIntersect(line l1, line l2, point& p) {
     // solve system of 2 linear algebraic equations with 2 unknowns
     p.x = (l2.b * l1.c - l1.b * l2.c) / (l2.a * l1.b - l1.a * l2.b);
     // special case: test for vertical line to avoid division by zero
-    if (fabs(l1.b) > EPS)
+    if (abs(l1.b) > EPS)
         p.y = -(l1.a * p.x + l1.c);
     else
         p.y = -(l2.a * p.x + l2.c);
@@ -266,9 +254,9 @@ vector<pt> convex_hull(vector<pt> pts) {
 }
 
 bool point_in_triangle(pt a, pt b, pt c, pt p) {
-    pt_type s1 = fabs(a.cross(b, c)); // == triangle area, times 2
-    pt_type s2 = fabs(p.cross(a, b)) + fabs(p.cross(b, c)) + fabs(p.cross(c, a));
-    return fabs(s1 - s2) <= EPS;
+    pt_type s1 = abs(a.cross(b, c)); // == triangle area, times 2
+    pt_type s2 = abs(p.cross(a, b)) + abs(p.cross(b, c)) + abs(p.cross(c, a));
+    return abs(s1 - s2) <= EPS;
 }
 
 // requires the result from convex hull in ccw order from the most left point
