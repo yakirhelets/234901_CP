@@ -26,6 +26,34 @@ typedef vector<si> vsi;
 const ll INF = 1e9;
 
 
+/********** Simple BFS ************/
+
+
+// BFS on digraph g from node s:
+// input: directed graph (g[u] contains the neighbors of u, nodes are named 0,1,...,|V|-1).
+// input: starting node (s)
+// output: distance from s to each node (d).
+void bfs(const vvi& g, ll s, vector<ll>& d) {
+    queue<ll> q;
+    q.push(s);
+    vector<bool> visible(g.size(), false);
+    visible[s] = true;
+    d.assign(g.size(), INF);
+    d[s] = 0;
+    while (!q.empty()) {
+        ll u = q.front();
+        q.pop();
+        for (ll v : g[u]) {
+            if (!visible[v]) {
+                visible[v] = true;
+                d[v] = d[u] + 1;
+                q.push(v);
+            }
+        }
+    }
+}
+
+
 /********** Topological Sort **********/
 
 

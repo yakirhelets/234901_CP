@@ -324,8 +324,7 @@ bool point_in_convex_polygon(const vector<pt>& seq, pt p_) {
     ll l = 0, r = n - 1;
     while (r - l > 1) {
         ll mid = (l + r) / 2;
-        ll pos = mid;
-        if (seq[pos].cross(p) >= 0)
+        if (seq[mid].cross(p) >= 0)
             l = mid;
         else
             r = mid;
@@ -336,7 +335,8 @@ bool point_in_convex_polygon(const vector<pt>& seq, pt p_) {
     return point_in_triangle(seq[pos], seq[pos + 1], pt(0, 0), p);
 }
 
-//
+// requires the result from convex hull in ccw order (safer to make it from the most left point too)
+#define INCN(x) ((x + 1) % n)
 double minimum_width(vector<pt>& pts) {
     ull n = pts.size();
 
@@ -346,10 +346,10 @@ double minimum_width(vector<pt>& pts) {
     double ret = INF;
 
     for (ull i = 0, j = 0; i < n; ++i) {
-        while (pts[i].cross(pts[(i + 1) % n], pts[(j + 1) % n]) >= pts[i].cross(pts[(i + 1) % n], pts[j]))
-            j = (j + 1) % n;
+        while (pts[i].cross(pts[INCN(i)], pts[INCN(j)]) >= pts[i].cross(pts[INCN(i)], pts[j]))
+            j = INCN(j);
         pt tmp{};
-        double dist = dist_to_line(pts[j], pts[i], pts[(i + 1) % n], tmp);
+        double dist = dist_to_line(pts[j], pts[i], pts[INCN(i)], tmp);
         ret = min(ret, dist);
     }
     return ret;
