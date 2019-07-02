@@ -1,0 +1,11 @@
+e-mail: yakir.helets@gmail.com
+name: Yakir Helets
+description:
+Notice that we only need to compare between to words the first two different letter
+in a certain position in order to determine the letter's order.
+1. Build a graph that represents the above order
+2. Run DFS algorithm on the graph for every non-visited letter as the source. The output
+    is the order between the letters reversed
+nontrivial data structures: -
+time complexity: O(V+E)
+
