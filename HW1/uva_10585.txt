@@ -1,0 +1,15 @@
+e-mail: yakir.helets@gmail.com
+name: Yakir Helets
+description:
+Notice the following:
+A. Consider two points p,q. So according to the center of symmetry's definition, center=(p+q)/2
+B. The center of symmetry is similar to all pairs of points
+Therefore, in order to find the center of symmetry, we need to find the average between
+two "reflective" points. We can do that easily by sorting the points (by x and then by y).
+for 0<i<n-1, the i'th point and the n-1-i'th points are "reflective".
+The "minimal" and the "maximal" points can produce the center of symmetry between them.
+Then, we need to compare the rest of the pairs with the center of symmetry that we found.
+
+nontrivial data structures: -
+time complexity: O(n*logn)
+
