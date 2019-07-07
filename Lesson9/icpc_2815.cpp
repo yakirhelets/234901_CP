@@ -1,79 +1,40 @@
-#include <algorithm>
-#include <cassert>
-#include <cmath>
-#include <iomanip>
 #include <iostream>
-#include <iterator>
-#include <list>
-#include <map>
-#include <queue>
-#include <set>
-#include <stack>
-#include <tuple>
-#include <unordered_map>
-#include <unordered_set>
 #include <vector>
-
-
-// clang-format off
-#ifndef LOAD_TEST
-// NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
-#define DO_LOAD_TEST(N) do {} while (false)
-#else
-#include "../load_test.hpp"
-// NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
-#define DO_LOAD_TEST(N) auto re_ref = load_test(__FILE__, (N))
-#endif
-// clang-format on
 
 using namespace std;
 
-using ll = long long;
-using ull = unsigned long long;
-using sz = size_t;
+vector<vector<int>> visited;
 
-using pll = pair<ll, ll>;
-using vpll = vector<pll>;
-using vvpll = vector<vpll>;
-
-using vl = vector<ll>;
-using vvl = vector<vl>;
-
-using sl = set<ll>;
-using vsl = vector<sl>;
-
-vvl memo;
-
-ull solve(const vvl& x, ull l, ull m) {
-    if (memo[l][m] != -1)
-        return memo[l][m];
-    if (m == 1 and l == 1)
-        return memo[l][m] = x[l][m];
-    if (m == 1)
-        return memo[l][m] = x[l][m] + solve(x, l - 1, m);
-    if (l == 1)
-        return memo[l][m] = x[l][m] + solve(x, l, m - 1);
-    return memo[l][m] = x[l][m] + max(solve(x, l, m - 1), solve(x, l - 1, m));
+int solve(vector<vector<int>>& blocks, int l, int m) {
+    if (visited[l][m] != -1) {
+        return visited[l][m];
+    }
+    if (m == 1 && l == 1) {
+        return visited[l][m] = blocks[l][m];
+    }
+    if (m == 1) {
+        return visited[l][m] = blocks[l][m] + solve(blocks, l - 1, m);
+    }
+    if (l == 1) {
+        return visited[l][m] = blocks[l][m] + solve(blocks, l, m - 1);
+    }
+    return visited[l][m] = blocks[l][m] + max(solve(blocks, l, m - 1), solve(blocks, l - 1, m));
 }
 
 
-/// XXXXX - Name
 int main() {
-    DO_LOAD_TEST(0);
-
-    ull n;
-    while (cin >> n) {
-        if (n == 0) {
-            break;
-        }
-        vvl x(101, vl(101, 0));
-        for (ull i = 0; i < n; ++i) {
-            ull l, m;
+    int n;
+    int max_range = 101;
+    while (cin >> n && n != 0) {
+        vector<vector<int>> blocks(max_range, vector<int>(max_range, 0));
+        for (int i = 0; i < n; ++i) {
+            int l, m;
             cin >> l >> m;
-            x[l][m]++;
+            blocks[l][m]++;
         }
-        memo = vvl(101, vl(101, -1));
-        cout << solve(x, 100, 100) << endl;
+        visited = vector<vector<int>>(max_range, vector<int>(max_range, -1));
+        int res = solve(blocks, max_range-1, max_range-1);
+        cout << res << endl;
     }
     cout << "*" << endl;
 }
