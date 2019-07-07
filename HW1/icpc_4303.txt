@@ -1,0 +1,15 @@
+e-mail: yakir.helets@gmail.com
+name: Yakir Helets
+description:
+Trivial solution is too slow here. A solution for this problem can be achieved with
+Dynamic Programming:
+Base Cases: S=0 - Return the numbers as is
+            S=1 - Follow the formula
+Sub Problem: Notice that we can address the N numbers as constants. We only need
+to calculate their coefficients, determined by S. In order to calculate the coefficients of S,
+we need the coefficients of S/2. That can be achieved by multiply the coefficients'
+vector by itself (similar to vector multiplication). Lastly, we'll multiply the coefficients
+with their corresponding numbers.
+nontrivial data structures: -
+time complexity: O(n^2)
+
